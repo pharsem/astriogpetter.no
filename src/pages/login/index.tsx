@@ -1,10 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import router from 'next/router';
 
-import { Wrapper, Form, Input, Button } from './loginStyles';
+import { GetServerSideProps } from 'next';
 import Cookies from 'js-cookie';
-import { stringify } from 'querystring';
 
+// if the user is already logged in, redirect to the main page
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  if (context.req.cookies.guestIds) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}
 
 const getRandomImage = () => {
   const numImages = 2;
@@ -82,18 +96,26 @@ const LandingPage: React.FC = () => {
   }, [loadingImage]);
 
   return (
-    <Wrapper bgImage={currentImage} opacity={1}>
-      <Form onSubmit={handleSubmit}>
-        <Input 
+    <div
+      className="landing-page"
+      style={{
+        background: `url(${currentImage}) no-repeat center center fixed`,
+        opacity: 1
+      }}
+    >
+      <form className="form" onSubmit={handleSubmit}>
+        <input 
+          className="input"
           type="text" 
           placeholder="F.eks.: ABC123"
           value={invitationCode}
           onChange={(e) => setInvitationCode(e.target.value)}
         />
-        <Button type="submit">Submit</Button>
-      </Form>
-    </Wrapper>
+        <button className="button" type="submit">Submit</button>
+      </form>
+    </div>
   );
+  
 };
 
 export default LandingPage;

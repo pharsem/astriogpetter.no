@@ -1,27 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import Head from 'next/head';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // get guestIds from cookies
   let guestIds = context.req.cookies.guestIds as string;
+  let guests = null;
 
-  // parse guestId array
-  guestIds = JSON.parse(guestIds);
+  if (guestIds) {
+    guestIds = JSON.parse(guestIds);
 
-  console.log(guestIds);
+    console.log(guestIds);
 
-  // get guests from database
-  const guests = await fetch('/api/getGuests', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ guestIds })
-  });
+    // get guests from database
+    const res = await fetch(process.env.BASE_URL + '/api/getGuests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ guestIds })
+    });
 
-  console.log(guests);
+    if (res.ok) {
+      guests = (await res.json())?.payload;
+
+      console.log(guests);
+    } else {
+      console.log('Error fetching guests');
+    }
+
+  }
 
   if (!guests) {
+    // if no guests are found, but there is a cookie, the cookie is invalid and should be deleted
+    if (guestIds) {
+      context.res.setHeader('Set-Cookie', 'guestIds=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT');
+    }
+  
+    // redirect to login page
     return {
       redirect: {
         destination: '/login',
