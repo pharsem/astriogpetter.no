@@ -1,4 +1,15 @@
-$primary-color: rgb(254,218,202);
-$secondary-color: #BACDEE;
-$tertiary-color: rgb(255,255,255);
-$text-default-color: rgb(39, 39, 39);
+
+// Colors (overriding Bootstrap defaults)
+$primary: #FEDACA;
+$secondary: #BACDEE;
+$success: #1A6350;
+$info: rgb(23, 162, 184);
+$warning: rgb(255, 193, 7);
+$danger: rgb(220, 53, 69);
+$light: rgb(248, 249, 250);
+$dark: rgb(52, 58, 64);
+
+$primary-strong: #EB9573;
+$text-secondary: rgb(89, 93, 97);
+
+$btn-border-radius: 0px;

@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Parisienne&family=Proza+Libre:wght@400;600&display=swap');
 @import 'variables';
+@import "~bootstrap/scss/bootstrap";
 
 * {
   box-sizing: border-box;
@@ -15,7 +16,7 @@ body {
 
 body {
   font-family: 'Proza Libre', sans-serif;
-  color: $text-default-color;
+  color: $dark;
 }
 
 a {
@@ -26,6 +27,14 @@ a {
 .form-group {
   display: flex;
   align-items: center;
+}
+
+.btn-primary {
+  background-color: $primary-strong;
+
+  &:hover {
+    background-color: $primary;
+  }
 }
 
 .landing-page {
@@ -61,7 +70,7 @@ a {
     .form-group {
       display: flex;
       align-items: center;
-      border-bottom: 2px solid $secondary-color; 
+      border-bottom: 2px solid $secondary; 
     }
 
     .input {
@@ -73,12 +82,12 @@ a {
       border-radius: 0%;
       background: transparent;
       outline: none;
-      caret-color: $secondary-color;
-      color: $text-default-color;
+      caret-color: $secondary;
+      color: $dark;
     }
     
     ::placeholder {
-      color: rgba($text-default-color, 0.5);
+      color: rgba($dark, 0.5);
     }
     
     .button {
@@ -91,10 +100,10 @@ a {
       align-items: center;
       justify-content: center;
       transition: background 0.3s ease;
-      color: $text-default-color;
+      color: $dark;
   
       &:hover {
-        color: $secondary-color;
+        color: $secondary;
       }
   
       .arrow-icon {
@@ -103,10 +112,94 @@ a {
     }
   
     .error-message {
-      color: $primary-color;
+      color: $primary;
       margin-top: 10px;
       font-size: 12px;
     }
   }
 
+}
+
+.main-container {
+  min-height: 100vh;
+  padding-top: 5rem;
+  background-color: $primary;
+  background-image: url('../../public/images/bg_top2.png');
+  background-repeat: no-repeat;
+  background-position-y: -100px;
+}
+
+header {
+  width: 100%;
+  background: $secondary;
+
+  .logo {
+    height: 2.5rem;
+    width: auto;
+  }
+
+  nav {
+    ul {
+      li {
+        transition: color 0.3s;
+
+        &:hover {
+          color: $primary;
+        }
+      }
+      
+    }
+  }
+}
+
+.text-body-secondary {
+  color: $text-secondary;
+}
+
+@media (min-width: 992px) {
+  .ms-lg-n5 {
+    margin-left: -3rem !important;
+  }
+  .ms-lg-n10 {
+    margin-left: -15% !important;
+  }
+
+  .me-lg-n5 {
+    margin-right: -3rem !important;
+  }
+  .me-lg-n10 {
+    margin-right: -15% !important;
+  }
+}
+
+.mt-n10 {
+  margin-top: -15%;
+}
+
+.card {
+  border: none;
+  border-radius: 0;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-body {
+    padding: 2rem;
+  }
+}
+
+.button-cards {
+  @media (min-width: 992px) {
+    height: 300px;
+  }
+  
+}
+
+footer {
+  img {
+    height: 200px;
+  }
 }
