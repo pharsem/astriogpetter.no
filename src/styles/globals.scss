@@ -124,32 +124,55 @@ a {
   min-height: 100vh;
   padding-top: 5rem;
   background-color: $primary;
-  background-image: url('../../public/images/bg_top2.png');
-  background-repeat: no-repeat;
-  background-position-y: -100px;
+  
+
+  &.expand-header-image-1 {
+    background-image: url('../../public/images/bg_top2.png');
+    background-repeat: no-repeat;
+    background-position-y: -100px;
+  }
+  
+  &.expand-header-image-2 {
+    background-image: url('../../public/images/bg_top2.png');
+    background-repeat: no-repeat;
+    background-position-y: -100px;
+  }
+  
+  &.expand-header-image-3 {
+    background-image: url('../../public/images/bg_top2.png');
+    background-repeat: no-repeat;
+    background-position-y: -100px;
+  }
+
+  &.expand-header-image-4 {
+    background-image: url('../../public/images/bg_top2.png');
+    background-repeat: no-repeat;
+    background-position-y: -100px;
+  }
 }
 
 header {
-  width: 100%;
-  background: $secondary;
-
-  .logo {
-    height: 2.5rem;
-    width: auto;
-  }
 
   nav {
+    width: 100%;
+    background: $secondary;
+
+    .logo {
+    height: 2.5rem;
+    width: auto;
+    }
+
     ul {
       li {
         transition: color 0.3s;
-
+  
         &:hover {
           color: $primary;
         }
       }
-      
     }
   }
+  
 }
 
 .text-body-secondary {
