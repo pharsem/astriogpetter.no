@@ -8,4 +8,5 @@ export interface Invitation {
   invitationCode: string;
   address: string;
   guests: Guest[];
+  lastVisit: Date;
 }

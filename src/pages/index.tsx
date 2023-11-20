@@ -42,10 +42,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       );
     }
 
-    // redirect to login page
+    // redirect to login page, include existing query parameters
     return {
       redirect: {
-        destination: "/login",
+        destination: "/login" + (context.req.url ? context.req.url : ""),
         permanent: false,
       },
     };
