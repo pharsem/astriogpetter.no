@@ -1,60 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { Guest } from "@/interfaces/guest";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
-import { pluralGuests } from "@/utils/helpers";
+import { getGuestDisplayName, pluralGuests, fetchGuestsForPage } from "@/utils/helpers";
 import Link from "next/link";
 import Page from "@/components/page";
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  // get guestIds from cookies
-  let guestIds = context.req.cookies.guestIds as string;
-  let guests = null;
-
-  if (guestIds) {
-    guestIds = JSON.parse(guestIds);
-
-    console.log(guestIds);
-
-    // get guests from database
-    const res = await fetch(process.env.BASE_URL + "/api/getGuests", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ guestIds }),
-    });
-
-    if (res.ok) {
-      guests = (await res.json())?.payload;
-
-      console.log(guests);
-    } else {
-      console.log("Error fetching guests");
-    }
-  }
-
-  if (!guests) {
-    // if no guests are found, but there is a cookie, the cookie is invalid and should be deleted
-    if (guestIds) {
-      context.res.setHeader(
-        "Set-Cookie",
-        "guestIds=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"
-      );
-    }
-
-    // redirect to login page, include existing query parameters
+export const getServerSideProps = fetchGuestsForPage(
+  async (context: GetServerSidePropsContext, guests: null | Guest[]) => {
+    // Additional page-specific server-side code
+    // `guests` are already fetched by fetchGuestsForPage
     return {
-      redirect: {
-        destination: "/login" + (context.req.url ? context.req.url : ""),
-        permanent: false,
+      props: {
+        // Additional props for the page
       },
     };
   }
+);
 
-  return {
-    props: { guests },
-  };
-};
 
 type HomeProps = {
   guests: Guest[];
@@ -62,23 +24,7 @@ type HomeProps = {
 
 const Home: React.FC<HomeProps> = ({ guests }) => {
   // get guest display name from props
-  const getGuestDisplayName = () => {
-    if (guests.length === 1) {
-      return guests[0].firstName;
-    } else if (guests.length === 2) {
-      return guests[0].firstName + " og " + guests[1].firstName;
-    } else {
-      let displayName = "";
-      for (let i = 0; i < guests.length; i++) {
-        if (i === guests.length - 1) {
-          displayName += " og " + guests[i].firstName;
-        } else {
-          displayName += guests[i].firstName + ", ";
-        }
-      }
-      return displayName;
-    }
-  };
+  const displayName = getGuestDisplayName(guests);
 
   const [isPlural, setIsPlural] = useState(false);
 
@@ -99,7 +45,7 @@ const Home: React.FC<HomeProps> = ({ guests }) => {
             <div className="card shadow-5">
               <div className="card-body">
                 <h4 className="text-body-secondary">
-                  Hei, {getGuestDisplayName()}!
+                  Hei, {displayName}!
                 </h4>
                 <h1 className="my-5">Vi skal gifte oss!</h1>
                 <Link href="/rsvp" className="btn btn-primary">

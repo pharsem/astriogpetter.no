@@ -32,7 +32,7 @@ const LandingPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [invitationCode, setInvitationCode] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);;
   const { query } = useRouter();
 
   // New useEffect for handling the query parameter
@@ -107,7 +107,9 @@ const LandingPage: React.FC = () => {
   }, [loadingImage]);
 
   useEffect(() => {
-    inputRef.current.focus();
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   }, []);
 
   return (
